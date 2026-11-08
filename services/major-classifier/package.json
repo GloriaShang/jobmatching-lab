@@ -1,0 +1,8 @@
+{
+  "name": "jobmatching-lab-major-classifier",
+  "private": true,
+  "type": "module",
+  "description": "Optional Gemini-backed normalization of academic major names for JobMatching Lab.",
+  "engines": { "node": ">=22" },
+  "scripts": { "test": "node --test" }
+}
