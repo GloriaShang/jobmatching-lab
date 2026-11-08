@@ -25,9 +25,9 @@ Job Matching Lab simulates a platform that recommends a limited number of worker
 
 ### Employment-service example
 
-The referral sandbox uses fictional jobseekers and vacancies to show how an employment counsellor can handle a limited number of referrals. Set the **Referral budget** and **Warehouse vacancy slots**. The sandbox checks job preferences, shifts, commute limits, and qualifications. It then recommends feasible referrals and explains who is waiting for a slot and who needs help finding a suitable vacancy. [Try the referral sandbox](https://gloriashang.github.io/jobmatching-lab/#referral-sandbox)
+The referral sandbox uses **120 fictional job seekers and 30 listings across 10 occupations**. Change the **Referral budget** and **Warehouse vacancy slots** to see how capacity affects the number of people referred. Check which occupations have openings left, then page through the recommendations and follow-up list.
 
-The [major classifier](services/major-classifier/) is an optional service for grouping free-text academic program names during data preparation. The sandbox runs in the browser with its own fictional records. A field pilot would use consented jobseeker data and verified vacancies, let a counsellor and the jobseeker review each suggestion, and measure referral coverage, interviews, and placements.
+The sandbox checks preferences, shifts, commute limits, and qualifications in the browser. It finds the largest feasible set of referrals, then favors first choices and shorter total commutes. It distinguishes people waiting for an eligible slot from people with no eligible listing. [Try the referral sandbox](https://gloriashang.github.io/jobmatching-lab/#referral-sandbox)
 
 ### What this project contributes
 
@@ -125,7 +125,6 @@ The adaptive mixture beats the fixed mixture on average under strong drift in th
 | [`jobmatching/allocation.py`](jobmatching/allocation.py) | Solves the capacity-constrained assignment and checks feasibility |
 | [`jobmatching/__main__.py`](jobmatching/__main__.py) | Runs the CLI and writes experiment outputs |
 | [`docs/index.html`](docs/index.html) | Hosts the dashboard and the employment referral sandbox |
-| [`services/major-classifier/`](services/major-classifier/) | Optional major-name classifier imported from the [original backend repository](https://github.com/GloriaShang/JobMatching-backend/tree/73c58d46b07dab3b31a3679135bfbf29b073cac5) |
 
 GitHub Actions installs the dependencies and runs the synthetic demo. The data archive is acquired separately for the JobTalash run. [Workflow runs](https://github.com/GloriaShang/jobmatching-lab/actions/workflows/smoke.yml)
 
@@ -139,9 +138,9 @@ Job Matching Lab 模拟一个按季度推荐岗位的平台。系统先估计每
 
 ### 就业服务应用
 
-就业转介沙盘用虚构的求职者和岗位演示顾问如何安排有限的推荐名额。调整**转介总名额**或**仓储岗位名额**，页面会检查求职意愿、班次、通勤和资格，再给出建议名单。名单分别说明谁有合适岗位但还在排队，谁当前缺少符合条件的岗位，方便顾问安排后续跟进。[打开就业转介沙盘](https://gloriashang.github.io/jobmatching-lab/#referral-sandbox)
+就业转介沙盘包含 **120 名虚构求职者、10 个职业类别和 30 条招聘信息**。调整**转介总名额**或**仓储岗位名额**，可以看到有多少人获得建议、哪些类别还有余量。建议和待跟进名单都可以分页查看。
 
-[专业分类接口](services/major-classifier/)可以作为前置数据整理工具，把自由文本的专业名称归到统一类别。沙盘使用独立的示例记录，在浏览器里运行。做实际试点时，应使用经同意的求职信息与核实过的岗位，由顾问和求职者复核推荐，再跟踪推荐覆盖、面试和入职结果。
+沙盘在浏览器里检查求职意愿、班次、通勤和资格。它先尽量让更多人获得转介，再尽量满足第一志愿、缩短总通勤时间。待跟进名单会区分正在等待名额的人和暂无合适岗位的人。[打开就业转介沙盘](https://gloriashang.github.io/jobmatching-lab/#referral-sandbox)
 
 ### 这个项目贡献了什么
 
