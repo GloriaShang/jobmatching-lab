@@ -112,16 +112,24 @@ button:focus-visible, select:focus-visible, a:focus-visible, summary:focus-visib
 .referral { margin-top: 22px; scroll-margin-top: 14px; }
 .referral-nav { font-size: .86rem; }
 .referral-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin-bottom: 14px; }
-.referral .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 14px; }
-.referral .metric:nth-child(3) { border-top: 0; border-left: 1px solid var(--line); }
+.referral .metrics { margin-bottom: 14px; }
 .referral h3 { font-size: 1rem; margin: 0 0 5px; }
-.referral-list { list-style: none; margin: 0 0 13px; padding: 0; }
+.referral-list { list-style: none; margin: 0 0 9px; padding: 0; }
 .referral-list li { padding: 6px 0; border-bottom: 1px solid var(--line); }
 .referral-list small { display: block; color: var(--muted); }
+.referral-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 12px; }
+.referral-pagination span { color: var(--muted); font-size: .81rem; }
+.referral-pagination button:disabled { cursor: default; opacity: .5; }
+.referral-comparison { margin-bottom: 16px; }
+.referral-comparison .table-scroll { margin-bottom: 6px; }
+.referral-comparison th:not(:first-child), .referral-comparison td { text-align: right; }
+.referral-comparison td { font-variant-numeric: tabular-nums; }
+.referral-comparison td:nth-child(2) { color: var(--blue); font-weight: 700; }
 .referral details { margin-top: 12px; }
 .referral summary { cursor: pointer; }
 .referral table { width: 100%; border-collapse: collapse; font-size: .86rem; text-align: left; }
 .referral th, .referral td { padding: 5px 8px; border-bottom: 1px solid var(--line); }
+.referral .table-scroll { max-height: 340px; }
 .empty { margin-top: 17px; padding: 15px; border: 1px solid var(--line); background: var(--surface); }
 [hidden] { display: none !important; }
 @media (max-width: 830px) {
@@ -204,19 +212,44 @@ button:focus-visible, select:focus-visible, a:focus-visible, summary:focus-visib
 <h2 id="referral-title" data-i="referralTitle"></h2>
 <p data-i="referralIntro"></p>
 <div class="referral-controls">
-  <div class="field"><label class="field-label" for="referral-budget" data-i="referralBudget"></label><select id="referral-budget"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option></select></div>
-  <div class="field"><label class="field-label" for="referral-warehouse" data-i="referralWarehouse"></label><select id="referral-warehouse"><option>0</option><option>1</option><option selected>2</option><option>3</option></select></div>
+  <div class="field"><label class="field-label" for="referral-budget" data-i="referralBudget"></label><select id="referral-budget"><option>12</option><option>24</option><option>36</option><option>48</option><option>60</option><option selected>80</option><option>120</option></select></div>
+  <div class="field"><label class="field-label" for="referral-warehouse" data-i="referralWarehouse"></label><select id="referral-warehouse"><option>0</option><option>3</option><option>6</option><option selected>9</option><option>12</option></select></div>
 </div>
 <div class="metrics" aria-live="polite">
   <div class="metric"><span class="metric-label" data-i="referralSuggested"></span><strong id="referral-count"></strong></div>
   <div class="metric"><span class="metric-label" data-i="referralWaiting"></span><strong id="referral-waiting"></strong></div>
   <div class="metric"><span class="metric-label" data-i="referralNoFit"></span><strong id="referral-no-fit"></strong></div>
+  <div class="metric"><span class="metric-label" data-i="referralOpenSlots"></span><strong id="referral-open-slots"></strong></div>
+</div>
+<div class="referral-comparison">
+  <h3 id="referral-comparison-title" data-i="referralCompare"></h3>
+  <div class="table-scroll"><table id="referral-comparison" aria-labelledby="referral-comparison-title"></table></div>
+  <p data-i="referralCompareNote"></p>
 </div>
 <div class="grid">
-  <div><h3 data-i="referralSuggested"></h3><ul id="referral-matches" class="referral-list"></ul></div>
-  <div><h3 data-i="referralFollowUp"></h3><ul id="referral-follow-up" class="referral-list"></ul></div>
+  <div>
+    <h3 id="referral-matches-title" data-i="referralSuggested"></h3>
+    <ul id="referral-matches" class="referral-list"></ul>
+    <div class="referral-pagination" role="group" aria-labelledby="referral-matches-title">
+      <button type="button" class="reset" data-referral-list="matches" data-referral-step="-1" aria-controls="referral-matches" data-i="referralPrevious"></button>
+      <span id="referral-matches-range" aria-live="polite"></span>
+      <button type="button" class="reset" data-referral-list="matches" data-referral-step="1" aria-controls="referral-matches" data-i="referralNext"></button>
+    </div>
+  </div>
+  <div>
+    <h3 id="referral-follow-up-title" data-i="referralFollowUp"></h3>
+    <ul id="referral-follow-up" class="referral-list"></ul>
+    <div class="referral-pagination" role="group" aria-labelledby="referral-follow-up-title">
+      <button type="button" class="reset" data-referral-list="follow-up" data-referral-step="-1" aria-controls="referral-follow-up" data-i="referralPrevious"></button>
+      <span id="referral-follow-up-range" aria-live="polite"></span>
+      <button type="button" class="reset" data-referral-list="follow-up" data-referral-step="1" aria-controls="referral-follow-up" data-i="referralNext"></button>
+    </div>
+  </div>
 </div>
 <p data-i="referralMethod"></p>
+<details><summary data-i="referralOccupationSummary"></summary>
+  <div class="table-scroll"><table id="referral-occupations"></table></div>
+</details>
 <details><summary data-i="referralInputs"></summary>
   <div class="table-scroll"><table id="referral-people"></table></div>
   <div class="table-scroll"><table id="referral-jobs"></table></div>
@@ -243,10 +276,10 @@ const per100=(row,key)=>row.allocated?row[key]*100/row.allocated:0;
 const esc=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const scenario=()=>data[state.source]?.[state.drift];
 Object.assign(copy.en, {
-  referralTitle:'Referral sandbox', referralIntro:'Try the employment counselor’s workflow with six fictional job seekers and four fictional vacancies. Adjust the slots to see which referrals are possible after checking role preferences, shifts, commute limits, and required certificates.',
+  referralTitle:'Referral sandbox', referralIntro:'Explore a fictional referral round with 120 job seekers and 30 vacancy listings across 10 occupations and seven industries. Adjust referral and warehouse slots to see who can be referred given their preferences, shifts, commute limits, and certificates.',
   referralBudget:'Referral budget', referralWarehouse:'Warehouse vacancy slots',
   referralSuggested:'Suggested referrals', referralWaiting:'Eligible, awaiting a slot',
-  referralNoFit:'No eligible vacancy', referralFollowUp:'Counselor follow-up',
+  referralNoFit:'No eligible vacancy', referralFollowUp:'Counselor follow-up', referralOpenSlots:'Total vacancy slots',
   referralMethod:'The sandbox prioritizes serving more people, then first-choice occupations, then shorter total travel. Counselors confirm the person’s interest and employer availability before referring. Employers make hiring decisions.',
   referralInputs:'View the fictional profiles and vacancies', referralPerson:'Job seeker',
   referralPreferences:'Preferred roles, in order', referralAvailability:'Available shifts',
@@ -256,17 +289,30 @@ Object.assign(copy.en, {
   referralFirst:'First-choice role', referralSecond:'Second-choice role', referralDay:'Day',
   referralEvening:'Evening', referralWarehouseRole:'Warehouse assistant', referralRetail:'Retail assistant',
   referralOffice:'Office assistant', referralKitchen:'Kitchen assistant', referralSafety:'Warehouse safety',
-  referralFood:'Food safety', referralShiftMismatch:'shift mismatch', referralCommuteMismatch:'trip exceeds limit',
-  referralCertificateMismatch:'missing certificate', referralNoPreferred:'No listed vacancy in a preferred occupation.',
-  referralNoSuggested:'No referral fits the current slots.',
-  referralFit:'All listed requirements met', referralTravel:'Travel by vacancy',
-  referralReviewSlots:'Check the next round of openings.', referralReviewFit:'Review the barriers with the job seeker.'
+  referralSupport:'Customer support', referralCleaning:'Facilities cleaner', referralProduction:'Production assistant',
+  referralHotel:'Hotel front desk', referralData:'Data entry clerk', referralCare:'Care assistant',
+  referralFood:'Food safety', referralCareTraining:'Care training', referralShiftMismatch:'shift mismatch', referralCommuteMismatch:'trip exceeds limit',
+  referralCertificateMismatch:'missing certificate',
+  referralNoSuggested:'No referral fits the current slots.', referralNoFollowUp:'Everyone has a referral suggestion.',
+  referralFit:'All listed requirements met', referralTravel:'Travel to preferred listings',
+  referralReviewSlots:'Check remaining or upcoming slots.', referralReviewFit:'Review the barriers with the job seeker.',
+  referralPrevious:'Previous', referralNext:'Next',
+  referralRange:(start,end,total)=>`${start}–${end} of ${total}`,
+  referralOccupationSummary:'Compare capacity and referrals by occupation',
+  referralOccupation:'Occupation', referralIndustry:'Industry', referralListings:'Listings', referralUsed:'Suggested',
+  referralLogistics:'Logistics', referralRetailServices:'Retail & customer services', referralOfficeServices:'Office services',
+  referralHospitality:'Hospitality & food service', referralFacilities:'Facilities services',
+  referralManufacturing:'Manufacturing', referralHealthcare:'Healthcare support',
+  referralCompare:'Compare two ways of making referrals',
+  referralCompareNote:'Both approaches use the same fictional cases and limits. Registration order takes each person’s best available preference and then shortest commute. Average commute covers the people referred by each approach.',
+  referralMeasure:'Measure', referralOptimize:'Batch optimization', referralFirstFit:'Registration order',
+  referralFirstCount:'First-choice referrals', referralAverageTravel:'Average commute'
 });
 Object.assign(copy.zh, {
-  referralTitle:'就业转介沙盘', referralIntro:'用六名虚构求职者和四个虚构岗位体验就业顾问的工作。调整名额，查看哪些配对符合职业志愿、班次、通勤上限和证书要求。',
+  referralTitle:'就业转介沙盘', referralIntro:'模拟一轮就业转介，覆盖 120 名虚构求职者，以及 7 个行业、10 类职业的 30 条岗位。调整转介与仓储名额，查看哪些配对符合职业志愿、班次、通勤上限和证书要求。',
   referralBudget:'转介总名额', referralWarehouse:'仓储岗位名额',
   referralSuggested:'建议转介', referralWaiting:'符合条件，等待名额',
-  referralNoFit:'暂无符合条件的岗位', referralFollowUp:'顾问待跟进',
+  referralNoFit:'暂无符合条件的岗位', referralFollowUp:'顾问待跟进', referralOpenSlots:'岗位总名额',
   referralMethod:'沙盘优先让更多人获得转介机会，其次尽量满足第一志愿，最后缩短总通勤时间。实际转介前，顾问需确认求职者意愿和雇主的可用名额。录用由雇主决定。',
   referralInputs:'查看虚构求职者和岗位条件', referralPerson:'求职者',
   referralPreferences:'职业志愿（按顺序）', referralAvailability:'可上班次',
@@ -276,26 +322,75 @@ Object.assign(copy.zh, {
   referralFirst:'第一志愿', referralSecond:'第二志愿', referralDay:'日班',
   referralEvening:'晚班', referralWarehouseRole:'仓储助理', referralRetail:'门店助理',
   referralOffice:'办公室助理', referralKitchen:'厨房助理', referralSafety:'仓储安全',
-  referralFood:'食品安全', referralShiftMismatch:'班次不符', referralCommuteMismatch:'通勤超过上限',
-  referralCertificateMismatch:'缺少证书', referralNoPreferred:'现有岗位没有覆盖求职者的职业志愿。',
-  referralNoSuggested:'当前名额下没有可建议的转介。',
-  referralFit:'符合岗位所列条件', referralTravel:'各岗位通勤时间',
-  referralReviewSlots:'查看下一轮可用名额。', referralReviewFit:'与求职者核对影响匹配的条件。'
+  referralSupport:'客服专员', referralCleaning:'设施保洁员', referralProduction:'生产助理',
+  referralHotel:'酒店前台', referralData:'数据录入员', referralCare:'照护助理',
+  referralFood:'食品安全', referralCareTraining:'照护培训', referralShiftMismatch:'班次不符', referralCommuteMismatch:'通勤超过上限',
+  referralCertificateMismatch:'缺少证书',
+  referralNoSuggested:'当前名额下没有可建议的转介。', referralNoFollowUp:'所有求职者均获得了转介建议。',
+  referralFit:'符合岗位所列条件', referralTravel:'意向岗位的通勤时间',
+  referralReviewSlots:'检查剩余名额或下一轮名额。', referralReviewFit:'与求职者核对影响匹配的条件。',
+  referralPrevious:'上一页', referralNext:'下一页',
+  referralRange:(start,end,total)=>`第 ${start}–${end} 条，共 ${total} 条`,
+  referralOccupationSummary:'按职业查看岗位名额与建议转介',
+  referralOccupation:'职业', referralIndustry:'行业', referralListings:'岗位条数', referralUsed:'建议人数',
+  referralLogistics:'物流仓储', referralRetailServices:'零售与客户服务', referralOfficeServices:'行政办公',
+  referralHospitality:'酒店与餐饮', referralFacilities:'设施服务',
+  referralManufacturing:'制造业', referralHealthcare:'医疗与照护',
+  referralCompare:'比较两种转介方式',
+  referralCompareNote:'两种方式使用同一批虚构案例和名额。按登记顺序逐人分配时，先考虑志愿顺序，再选通勤更短的可用岗位。平均通勤时间按各自建议转介的人计算。',
+  referralMeasure:'指标', referralOptimize:'集中优化', referralFirstFit:'按登记顺序',
+  referralFirstCount:'符合第一志愿的人数', referralAverageTravel:'平均通勤时间'
 });
-const referralVacancies=[
-  {id:'W1',role:'referralWarehouseRole',shift:'referralDay',slots:2,certificate:'referralSafety'},
-  {id:'R1',role:'referralRetail',shift:'referralEvening',slots:1},
-  {id:'O1',role:'referralOffice',shift:'referralDay',slots:1},
-  {id:'K1',role:'referralKitchen',shift:'referralEvening',slots:1,certificate:'referralFood'}
+const referralOccupations=[
+  {role:'referralWarehouseRole',industry:'referralLogistics',certificate:'referralSafety'},
+  {role:'referralRetail',industry:'referralRetailServices'},
+  {role:'referralOffice',industry:'referralOfficeServices'},
+  {role:'referralKitchen',industry:'referralHospitality',certificate:'referralFood'},
+  {role:'referralSupport',industry:'referralRetailServices'},
+  {role:'referralCleaning',industry:'referralFacilities'},
+  {role:'referralProduction',industry:'referralManufacturing'},
+  {role:'referralHotel',industry:'referralHospitality'},
+  {role:'referralData',industry:'referralOfficeServices'},
+  {role:'referralCare',industry:'referralHealthcare',certificate:'referralCareTraining'}
 ];
-const referralPeople=[
-  {id:'P01',roles:['referralWarehouseRole','referralRetail'],shifts:['referralDay'],limit:30,certificates:['referralSafety'],travel:[15,20,35,25]},
-  {id:'P02',roles:['referralWarehouseRole','referralOffice'],shifts:['referralDay'],limit:25,certificates:['referralSafety'],travel:[20,30,15,35]},
-  {id:'P03',roles:['referralRetail','referralKitchen'],shifts:['referralEvening'],limit:35,certificates:[],travel:[15,25,20,30]},
-  {id:'P04',roles:['referralOffice','referralRetail'],shifts:['referralDay','referralEvening'],limit:30,certificates:[],travel:[25,15,20,50]},
-  {id:'P05',roles:['referralKitchen','referralRetail'],shifts:['referralEvening'],limit:35,certificates:['referralFood'],travel:[45,15,22,25]},
-  {id:'P06',roles:['referralWarehouseRole','referralOffice'],shifts:['referralDay'],limit:25,certificates:[],travel:[15,20,30,20]}
-];
+function makeReferralScenario(){
+  // A fixed seed makes every run comparable. These profiles and postings are fictional.
+  let seed=2025;
+  const draw=max=>{
+    seed=(Math.imul(seed,1664525)+1013904223)>>>0;
+    return Math.floor(seed/4294967296*max);
+  };
+  const identifier=(prefix,n,width)=>prefix+String(n).padStart(width,'0');
+  const shifts=['referralDay','referralEvening'];
+  const vacancies=referralOccupations.flatMap((occupation,roleIndex)=>
+    Array.from({length:3},(_,site)=>({
+      ...occupation,
+      id:identifier('J',roleIndex*3+site+1,2),
+      district:(roleIndex+site*2)%5,
+      shift:shifts[(roleIndex+site)%2],
+      slots:1+draw(3)
+    })));
+  const people=Array.from({length:120},(_,index)=>{
+    const primaryIndex=index%referralOccupations.length;
+    const secondaryIndex=(primaryIndex+1+draw(referralOccupations.length-1))%referralOccupations.length;
+    const roles=[referralOccupations[primaryIndex].role,referralOccupations[secondaryIndex].role];
+    const district=draw(5);
+    const certificates=referralOccupations.filter(occupation=>occupation.certificate&&
+      draw(100)<(roles.includes(occupation.role)?64:18)).map(occupation=>occupation.certificate);
+    const shiftPreference=draw(3);
+    const limit=20+draw(7)*5;
+    return {
+      id:identifier('P',index+1,3),roles,certificates,limit,
+      shifts:shiftPreference===2?shifts:[shifts[shiftPreference]],
+      travel:vacancies.map(job=>{
+        const distance=Math.abs(district-job.district);
+        return 10+16*Math.min(distance,5-distance)+draw(10);
+      })
+    };
+  });
+  return {people,vacancies};
+}
+const {people:referralPeople,vacancies:referralVacancies}=makeReferralScenario();
 function referralBarriers(person,job,index){
   const reasons=[];
   if(!person.shifts.includes(job.shift))reasons.push('referralShiftMismatch');
@@ -303,76 +398,176 @@ function referralBarriers(person,job,index){
   if(job.certificate&&!person.certificates.includes(job.certificate))reasons.push('referralCertificateMismatch');
   return reasons;
 }
-function planReferrals(budget,slots){
-  const eligible=referralPeople.map(person=>referralVacancies.flatMap((job,index)=>
-    person.roles.includes(job.role)&&!referralBarriers(person,job,index).length?[index]:[]));
-  const remaining=[...slots];
-  let best={picks:[],count:-1,first:0,minutes:0};
-  function search(index,picks,count,first,minutes){
-    if(index===referralPeople.length){
-      if(count>best.count||(count===best.count&&(first>best.first||(first===best.first&&minutes<best.minutes)))){
-        best={picks:[...picks],count,first,minutes};
-      }
-      return;
-    }
-    const person=referralPeople[index];
-    if(count<budget){
-      for(const job of eligible[index]){
-        if(!remaining[job])continue;
-        remaining[job]--;
-        picks.push(job);
-        search(index+1,picks,count+1,first+Number(person.roles[0]===referralVacancies[job].role),minutes+person.travel[job]);
-        picks.pop();
-        remaining[job]++;
-      }
-    }
-    picks.push(null);
-    search(index+1,picks,count,first,minutes);
-    picks.pop();
+const referralEligible=referralPeople.map(person=>referralVacancies.flatMap((job,index)=>
+  person.roles.includes(job.role)&&!referralBarriers(person,job,index).length?[index]:[]));
+function planReferrals(people,vacancies,eligible,budget,slots){
+  const firstJob=people.length;
+  const source=firstJob+vacancies.length;
+  const sink=source+1;
+  const graph=Array.from({length:sink+1},()=>[]);
+  function addEdge(from,to,capacity,cost){
+    const forward={to,capacity,cost,reverse:graph[to].length};
+    graph[to].push({to:from,capacity:0,cost:-cost,reverse:graph[from].length});
+    graph[from].push(forward);
+    return forward;
   }
-  search(0,[],0,0,0);
-  return {best,eligible};
+  // A single first choice outweighs every possible difference in total commute.
+  const preferencePenalty=1+people.reduce((sum,person)=>sum+person.limit,0);
+  const choices=people.map((person,index)=>{
+    addEdge(source,index,1,0);
+    return eligible[index].map(job=>{
+      const penalty=vacancies[job].role===person.roles[0]?0:preferencePenalty;
+      return {job,edge:addEdge(index,firstJob+job,1,person.travel[job]+penalty)};
+    });
+  });
+  slots.forEach((capacity,job)=>addEdge(firstJob+job,sink,capacity,0));
+  // Augment one referral at a time along the cheapest residual path.
+  // Reverse edges let a later path reassign an earlier referral.
+  let count=0;
+  while(count<budget){
+    const distance=Array(graph.length).fill(Infinity);
+    const predecessor=Array(graph.length);
+    const queued=Array(graph.length).fill(false);
+    const queue=[source];
+    distance[source]=0;
+    queued[source]=true;
+    for(let head=0;head<queue.length;head++){
+      const node=queue[head];
+      queued[node]=false;
+      for(const edge of graph[node]){
+        const nextCost=distance[node]+edge.cost;
+        if(!edge.capacity||nextCost>=distance[edge.to])continue;
+        distance[edge.to]=nextCost;
+        predecessor[edge.to]={node,edge};
+        if(!queued[edge.to]){
+          queue.push(edge.to);
+          queued[edge.to]=true;
+        }
+      }
+    }
+    if(!predecessor[sink])break;
+    for(let node=sink;node!==source;){
+      const step=predecessor[node];
+      step.edge.capacity--;
+      graph[node][step.edge.reverse].capacity++;
+      node=step.node;
+    }
+    count++;
+  }
+  return {count,picks:choices.map(edges=>edges.find(({edge})=>edge.capacity===0)?.job??null)};
+}
+function firstFitReferrals(people,vacancies,eligible,budget,slots){
+  const remaining=slots.slice();
+  let count=0;
+  const picks=people.map((person,index)=>{
+    if(count===budget)return null;
+    const preference=job=>person.roles.indexOf(vacancies[job].role);
+    const available=eligible[index].filter(job=>remaining[job]>0);
+    available.sort((a,b)=>preference(a)-preference(b)||person.travel[a]-person.travel[b]||a-b);
+    if(!available.length)return null;
+    const pick=available[0];
+    remaining[pick]--;
+    count++;
+    return pick;
+  });
+  return {count,picks};
+}
+const referralPages={
+  matches:{page:0,rows:[],empty:'referralNoSuggested'},
+  'follow-up':{page:0,rows:[],empty:'referralNoFollowUp'}
+};
+const referralsPerPage=6;
+function renderReferralPage(name){
+  const list=referralPages[name];
+  const total=list.rows.length;
+  const start=list.page*referralsPerPage;
+  const end=Math.min(start+referralsPerPage,total);
+  by(`referral-${name}`).innerHTML=list.rows.slice(start,end).join('')||
+    `<li>${esc(t(list.empty))}</li>`;
+  by(`referral-${name}-range`).textContent=total?t('referralRange')(fmt(start+1),fmt(end),fmt(total)):'';
+  for(const button of document.querySelectorAll(`button[data-referral-list="${name}"]`)){
+    button.disabled=Number(button.dataset.referralStep)<0?start===0:end===total;
+  }
+}
+function referralSlots(warehouseSlots){
+  const warehouseRole='referralWarehouseRole';
+  const warehouseListings=referralVacancies.filter(job=>job.role===warehouseRole).length;
+  let listingIndex=0;
+  return referralVacancies.map(job=>job.role===warehouseRole
+    ?Math.floor(warehouseSlots/warehouseListings)+Number(listingIndex++<warehouseSlots%warehouseListings)
+    :job.slots);
 }
 function renderReferrals(){
   const budget=Number(by('referral-budget').value);
-  const slots=referralVacancies.map((job,index)=>index===0?Number(by('referral-warehouse').value):job.slots);
-  const {best,eligible}=planReferrals(budget,slots);
-  const matches=[],followUp=[];
-  let waiting=0,noFit=0;
+  const slots=referralSlots(Number(by('referral-warehouse').value));
+  const {picks,count}=planReferrals(referralPeople,referralVacancies,referralEligible,budget,slots);
+  const firstFit=firstFitReferrals(referralPeople,referralVacancies,referralEligible,budget,slots);
+  const matches=[],waiting=[],noFit=[];
+  const usedByListing=slots.map(()=>0);
   const mins=value=>`${value} ${t('referralMinutes')}`;
   const localized=keys=>keys.length?keys.map(t).join(' · '):t('referralNone');
   for(const [index,person] of referralPeople.entries()){
-    const pick=best.picks[index];
+    const pick=picks[index];
     if(pick!==null){
       const job=referralVacancies[pick];
+      usedByListing[pick]++;
       const preference=person.roles[0]===job.role?'referralFirst':'referralSecond';
-      const reason=[t(preference),t(job.shift),mins(person.travel[pick]),t('referralFit')].join(' · ');
-      matches.push(`<li><strong>${person.id} → ${esc(t(job.role))}</strong><small>${esc(reason)}</small></li>`);
+      const reason=[t(job.industry),t(preference),t(job.shift),mins(person.travel[pick]),t('referralFit')].join(' · ');
+      matches.push(`<li><strong>${person.id} → ${esc(t(job.role))} · ${job.id}</strong><small>${esc(reason)}</small></li>`);
       continue;
     }
-    const waitingForSlot=eligible[index].length>0;
-    waiting+=Number(waitingForSlot);
-    noFit+=Number(!waitingForSlot);
+    const eligible=referralEligible[index];
+    const waitingForSlot=eligible.length>0;
     const reason=waitingForSlot
-      ?eligible[index].map(job=>t(referralVacancies[job].role)).join(' · ')
-      :referralVacancies.flatMap((job,j)=>person.roles.includes(job.role)
-        ?[`${t(job.role)} · ${localized(referralBarriers(person,job,j))}`]:[]).join(' / ')||t('referralNoPreferred');
+      ?localized([...new Set(eligible.map(job=>referralVacancies[job].role))])
+      :person.roles.map(role=>{
+        const barriers=referralVacancies.flatMap((job,j)=>job.role===role?referralBarriers(person,job,j):[]);
+        return `${t(role)} · ${localized([...new Set(barriers)])}`;
+      }).join(' / ');
     const action=t(waitingForSlot?'referralReviewSlots':'referralReviewFit');
-    followUp.push(`<li><strong>${person.id} · ${esc(t(waitingForSlot?'referralWaiting':'referralNoFit'))}</strong><small>${esc(reason)}</small><small>${esc(action)}</small></li>`);
+    (waitingForSlot?waiting:noFit).push(`<li><strong>${person.id} · ${esc(t(waitingForSlot?'referralWaiting':'referralNoFit'))}</strong><small>${esc(reason)}</small><small>${esc(action)}</small></li>`);
   }
-  by('referral-count').textContent=fmt(best.count);
-  by('referral-waiting').textContent=fmt(waiting);
-  by('referral-no-fit').textContent=fmt(noFit);
-  by('referral-matches').innerHTML=matches.join('')||`<li>${esc(t('referralNoSuggested'))}</li>`;
-  by('referral-follow-up').innerHTML=followUp.join('');
+  by('referral-count').textContent=fmt(count);
+  by('referral-waiting').textContent=fmt(waiting.length);
+  by('referral-no-fit').textContent=fmt(noFit.length);
+  by('referral-open-slots').textContent=fmt(slots.reduce((total,capacity)=>total+capacity,0));
+  referralPages.matches.rows=matches;
+  // Alternate follow-up types so the first page usually contains both kinds of case.
+  referralPages['follow-up'].rows=Array.from({length:Math.max(noFit.length,waiting.length)},(_,index)=>
+    [noFit[index],waiting[index]].filter(Boolean)).flat();
+  for(const name of Object.keys(referralPages))renderReferralPage(name);
   function fillTable(id,headers,rows){
     by(id).innerHTML=`<thead><tr>${headers.map(key=>`<th scope="col">${esc(t(key))}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map((cell,index)=>index===0?`<th scope="row">${esc(cell)}</th>`:`<td>${esc(cell)}</td>`).join('')}</tr>`).join('')}</tbody>`;
   }
+  const stats=plan=>{
+    let first=0,totalTravel=0;
+    plan.picks.forEach((job,index)=>{
+      if(job===null)return;
+      const person=referralPeople[index];
+      first+=Number(person.roles[0]===referralVacancies[job].role);
+      totalTravel+=person.travel[job];
+    });
+    return {count:fmt(plan.count),first:fmt(first),
+      travel:plan.count?mins(fmt(totalTravel/plan.count,1)):'—'};
+  };
+  const batch=stats({picks,count}), sequential=stats(firstFit);
+  fillTable('referral-comparison',['referralMeasure','referralOptimize','referralFirstFit'],[
+    [t('referralSuggested'),batch.count,sequential.count],
+    [t('referralFirstCount'),batch.first,sequential.first],
+    [t('referralAverageTravel'),batch.travel,sequential.travel]
+  ]);
+  fillTable('referral-occupations',['referralIndustry','referralOccupation','referralListings','referralSlots','referralUsed'],
+    referralOccupations.map(({role,industry})=>{
+      const listings=referralVacancies.flatMap((job,index)=>job.role===role?[index]:[]);
+      const sum=values=>listings.reduce((total,index)=>total+values[index],0);
+      return [t(industry),t(role),fmt(listings.length),fmt(sum(slots)),fmt(sum(usedByListing))];
+    }));
   fillTable('referral-people',['referralPerson','referralPreferences','referralAvailability','referralCommute','referralCertificates','referralTravel'],
     referralPeople.map(person=>[person.id,localized(person.roles),localized(person.shifts),mins(person.limit),
-      localized(person.certificates),person.travel.map((time,index)=>`${referralVacancies[index].id} ${mins(time)}`).join(' · ')]));
-  fillTable('referral-jobs',['referralVacancy','referralShift','referralRequires','referralSlots'],
-    referralVacancies.map((job,index)=>[`${job.id} · ${t(job.role)}`,t(job.shift),t(job.certificate||'referralNone'),fmt(slots[index])]));
+      localized(person.certificates),referralVacancies.flatMap((job,index)=>person.roles.includes(job.role)
+        ?[`${job.id} ${mins(person.travel[index])}`]:[]).join(' · ')]));
+  fillTable('referral-jobs',['referralVacancy','referralIndustry','referralShift','referralRequires','referralSlots'],
+    referralVacancies.map((job,index)=>[`${job.id} · ${t(job.role)}`,t(job.industry),t(job.shift),t(job.certificate||'referralNone'),fmt(slots[index])]));
 }
 function updateText(){
   document.documentElement.lang=state.lang==='zh'?'zh-Hans':'en';
@@ -526,7 +721,17 @@ for(const key of ['policy','comparison']){
 }
 by('reset').addEventListener('click',()=>{Object.assign(state,defaultFilters);render();});
 for(const id of ['referral-budget','referral-warehouse']){
-  by(id).addEventListener('change',renderReferrals);
+  by(id).addEventListener('change',()=>{
+    for(const list of Object.values(referralPages))list.page=0;
+    renderReferrals();
+  });
+}
+for(const button of document.querySelectorAll('button[data-referral-step]')){
+  button.addEventListener('click',()=>{
+    const {referralList,referralStep}=button.dataset;
+    referralPages[referralList].page+=Number(referralStep);
+    renderReferralPage(referralList);
+  });
 }
 let frame=0;
 window.addEventListener('resize',()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(charts);});
