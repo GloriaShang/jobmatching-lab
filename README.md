@@ -25,9 +25,13 @@ Job Matching Lab simulates a platform that recommends a limited number of worker
 
 ### Employment-service example
 
-The referral sandbox uses **120 fictional job seekers and 30 listings across 10 occupations**. Change the **Referral budget** and **Warehouse vacancy slots** to see how capacity affects the number of people referred. Check which occupations have openings left, then page through the recommendations and follow-up list.
+The referral sandbox uses **120 fictional job seekers and 30 listings across 10 occupations in 7 industry groups**, including warehousing, retail and customer service, hospitality, manufacturing, and healthcare support. Change the **Referral budget** and **Warehouse vacancy slots** to see how capacity affects the number of people referred. Check which occupations have slots left, then page through the recommendations and follow-up list.
 
 The sandbox checks preferences, shifts, commute limits, and qualifications in the browser. It finds the largest feasible set of referrals, then favors first choices and shorter total commutes. It distinguishes people waiting for an eligible slot from people with no eligible listing. [Try the referral sandbox](https://gloriashang.github.io/jobmatching-lab/#referral-sandbox)
+
+With the default budget of **80 referrals** and **9 warehouse slots**, the sandbox recommends **67 people** versus **61** with sequential allocation. First-choice referrals rise from **45 to 55**. At a tighter budget of **48**, both methods fill all 48 slots, and first-choice referrals rise from **38 to 48**. Both methods use the same profiles, listings, capacity and eligibility rules. The sequential method processes people by ID and assigns the closest available listing in their highest-ranked eligible role, without revisiting prior assignments. These results measure simulated referrals; a field pilot would measure interviews and placements.
+
+To check sensitivity to the processing order, we ran sequential allocation on 30 random orders of the same profiles (Python random seed 2025). In the default scenario, the baseline referred **61–65 people** and met **38–49 first choices** across those runs.
 
 ### What this project contributes
 
@@ -138,9 +142,13 @@ Job Matching Lab 模拟一个按季度推荐岗位的平台。系统先估计每
 
 ### 就业服务应用
 
-就业转介沙盘包含 **120 名虚构求职者、10 个职业类别和 30 条招聘信息**。调整**转介总名额**或**仓储岗位名额**，可以看到有多少人获得建议、哪些类别还有余量。建议和待跟进名单都可以分页查看。
+就业转介沙盘包含 **120 名虚构求职者、7 个行业分组、10 类职业和 30 条招聘信息**，覆盖仓储物流、零售与客服、酒店与餐饮、制造、医疗照护等。调整**转介总名额**或**仓储岗位名额**，可以看到有多少人获得建议、哪些类别还有余量。建议和待跟进名单都可以分页查看。
 
 沙盘在浏览器里检查求职意愿、班次、通勤和资格。它先尽量让更多人获得转介，再尽量满足第一志愿、缩短总通勤时间。待跟进名单会区分正在等待名额的人和暂无合适岗位的人。[打开就业转介沙盘](https://gloriashang.github.io/jobmatching-lab/#referral-sandbox)
+
+默认设定下，转介总上限为 **80**，仓储岗位有 **9** 个名额。使用同一批求职者、岗位和资格约束，优化分配建议转介 **67 人**，逐人顺序分配为 **61 人**，第一志愿转介也从 **45 人增至 55 人**。把总上限降到 **48**，两种方法都能转介 48 人，第一志愿人数从 **38 人增至 48 人**。顺序分配按求职者编号处理，优先选择仍有名额的最高志愿，再选通勤最近的岗位，已经安排的结果不回调。这里衡量的是模拟转介效果，实际试点还需要跟踪面试和入职。
+
+为检验结果是否受处理顺序影响，默认情景额外比较了 30 种随机顺序（Python 随机种子 2025）。顺序分配的转介人数为 **61–65 人**，其中满足第一志愿的为 **38–49 人**。
 
 ### 这个项目贡献了什么
 
