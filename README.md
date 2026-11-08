@@ -11,6 +11,12 @@
 
 Job Matching Lab simulates a platform that recommends a limited number of worker–job pairs each quarter. It estimates each pair’s invitation probability, then optimizes the **whole batch** under worker, job, and recommendation limits. A policy updates from feedback on the pairs it selected, once that feedback becomes available.
 
+### What this project contributes
+
+1. **Prediction to decision.** Turn invitation scores into a batch allocation with explicit worker capacity, job capacity, and quarterly budgets. Measure decision quality against the best feasible allocation using the simulator’s probabilities.
+2. **A controlled comparison under delayed feedback.** Compare five policies on the same scenario and resource constraints. Fixed and adaptive mixtures start at the same weight, and each policy updates using the feedback available from its own prior selections.
+3. **Reproducible evaluation on two graph types.** Run the same pipeline on a generated graph or a checksum-verified JobTalash delivery graph. The benchmark reports all five policies over ten paired seeds per drift setting, and the bilingual explorer shows how one scenario unfolds quarter by quarter.
+
 ### 📊 Explore the interactive demo
 
 Switch the candidate graph, drift strength, and policy to compare the oracle gap, quarterly invitation yield, and adaptive weight. The dashboard uses seed 42 and policy-level aggregates. [Open the interactive demo](https://gloriashang.github.io/jobmatching-lab/)
@@ -104,6 +110,12 @@ GitHub Actions installs the dependencies and runs the synthetic demo. The data a
 ## 简体中文
 
 Job Matching Lab 模拟一个按季度推荐岗位的平台。系统先估计每对「求职者—岗位」收到邀请的概率，再考虑求职者容量、岗位容量和推荐总量，求出**整批推荐方案**。每种策略只能用自己选中的配对已经返回的反馈更新模型。
+
+### 这个项目贡献了什么
+
+1. **把预测接到分配决策。** 将邀请概率用于整批推荐，明确约束求职者容量、岗位容量和每季度推荐名额，并计算策略与模拟最优可行分配的差距。
+2. **把延迟反馈做成可比较的实验。** 五种策略面对同一场景和资源约束，固定混合与自适应混合从相同权重起步。每种策略只用自己选中、且已经返回的反馈更新。
+3. **让实验能在两种候选图上复跑。** 同一套流程支持合成图和经校验的 JobTalash 投递图。基准表汇报每档漂移下五种策略在十个种子上的均值，双语交互页展示其中一个种子的季度变化。
 
 ### 📊 在线交互演示
 
