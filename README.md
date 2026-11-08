@@ -2,18 +2,18 @@
 
 [![Synthetic demo](https://github.com/GloriaShang/jobmatching-lab/actions/workflows/smoke.yml/badge.svg)](https://github.com/GloriaShang/jobmatching-lab/actions/workflows/smoke.yml)
 
-[English](#english) · [简体中文](#简体中文)
+[English](#english) · [简体中文](#简体中文) · **[▶ Live dashboard · 在线看板](https://gloriashang.github.io/jobmatching-lab/)**
 
 **Capacity-constrained worker–job matching with delayed feedback.**  
 **在岗位容量有限、反馈延迟的情况下，比较不同的人岗匹配策略。**
 
 ## ▶ [Open the live dashboard · 打开在线演示](https://gloriashang.github.io/jobmatching-lab/)
 
-Try **JobTalash structure → Strong → Adaptive mixture vs Fixed mixture → 2022 Q2** to see the two policies side by side and read the difference for that quarter.
+Try **JobTalash structure → Strong → Adaptive mixture vs Fixed mixture → 2022 Q2**. The simulation shows **15.02 vs 13.83 expected invitations per 100 selected pairs**, a difference of **1.19**.
 
-试试 **JobTalash 真实结构 → 强漂移 → 自适应混合对照固定混合 → 2022 年第 2 季度**，就能看到两种策略的走势和当季差值。
+试试 **JobTalash 真实结构 → 强漂移 → 自适应混合对照固定混合 → 2022 年第 2 季度**。模拟结果显示，两种策略每百对预期分别获得 **15.02** 和 **13.83** 次邀请，相差 **1.19** 次。
 
-[How to use the dashboard](#how-to-use-the-dashboard) · [看板玩法](#看板玩法)
+[How to use the dashboard](#how-to-use-the-dashboard) · [看板玩法](#看板玩法) · [Referral sandbox · 就业转介沙盘](https://gloriashang.github.io/jobmatching-lab/#referral-sandbox)
 
 <a href="https://gloriashang.github.io/jobmatching-lab/">
   <img src="https://github.com/user-attachments/assets/1367bb33-7db8-416b-a6fb-45edb8f82059" width="700" alt="Job Matching Lab in English and light mode. The dashboard compares the adaptive and fixed mixtures and highlights 2022 Q2 on both charts.">
@@ -22,6 +22,12 @@ Try **JobTalash structure → Strong → Adaptive mixture vs Fixed mixture → 2
 ## English
 
 Job Matching Lab simulates a platform that recommends a limited number of worker–job pairs each quarter. It estimates each pair’s invitation probability, then optimizes the **whole batch** under worker, job, and recommendation limits. A policy updates from feedback on the pairs it selected, once that feedback becomes available.
+
+### Employment-service example
+
+The referral sandbox uses fictional jobseekers and vacancies to show how an employment counsellor can handle a limited number of referrals. Set the **Referral budget** and **Warehouse vacancy slots**. The sandbox checks job preferences, shifts, commute limits, and qualifications. It then recommends feasible referrals and explains who is waiting for a slot and who needs help finding a suitable vacancy. [Try the referral sandbox](https://gloriashang.github.io/jobmatching-lab/#referral-sandbox)
+
+The [major classifier](services/major-classifier/) is an optional service for grouping free-text academic program names during data preparation. The sandbox runs in the browser with its own fictional records. A field pilot would use consented jobseeker data and verified vacancies, let a counsellor and the jobseeker review each suggestion, and measure referral coverage, interviews, and placements.
 
 ### What this project contributes
 
@@ -36,6 +42,8 @@ Job Matching Lab simulates a platform that recommends a limited number of worker
 3. Click the chart or a quarter button to highlight the same quarter on the matching and weight charts. The readout gives both policy values and their difference. Expand the table for all eight quarters.
 
 **Reset filters** restores the starting scenario. The top-right controls switch language and theme. Each open or reload starts in English and Light. The dashboard displays policy aggregates from seed 42.
+
+The dashboard reports expected invitations and the gap from the best feasible simulated allocation, both per 100 selected pairs. It also shows the number of test labels available when a decision is made and the percentage weight on the recency-based model. These measures describe simulated referral decisions.
 
 ### 🔎 Choose a data mode
 
@@ -116,16 +124,24 @@ The adaptive mixture beats the fixed mixture on average under strong drift in th
 | [`jobmatching/learner.py`](jobmatching/learner.py) | Fits the prediction models and updates the adaptive mixture |
 | [`jobmatching/allocation.py`](jobmatching/allocation.py) | Solves the capacity-constrained assignment and checks feasibility |
 | [`jobmatching/__main__.py`](jobmatching/__main__.py) | Runs the CLI and writes experiment outputs |
+| [`docs/index.html`](docs/index.html) | Hosts the dashboard and the employment referral sandbox |
+| [`services/major-classifier/`](services/major-classifier/) | Optional major-name classifier imported from the [original backend repository](https://github.com/GloriaShang/JobMatching-backend/tree/73c58d46b07dab3b31a3679135bfbf29b073cac5) |
 
 GitHub Actions installs the dependencies and runs the synthetic demo. The data archive is acquired separately for the JobTalash run. [Workflow runs](https://github.com/GloriaShang/jobmatching-lab/actions/workflows/smoke.yml)
 
 **Topics** `job-matching` · `jobtalash` · `bipartite-matching` · `operations-research` · `linear-programming` · `delayed-feedback` · `concept-drift` · `simulation` · `reproducible-research` · `python` · `scipy`
 
-[简体中文](#简体中文) · [Back to top](#job-matching-lab)
+[简体中文](#简体中文) · [Open the live dashboard](https://gloriashang.github.io/jobmatching-lab/) · [Back to top](#job-matching-lab)
 
 ## 简体中文
 
 Job Matching Lab 模拟一个按季度推荐岗位的平台。系统先估计每对「求职者—岗位」收到邀请的概率，再考虑求职者容量、岗位容量和推荐总量，求出**整批推荐方案**。每种策略只能用自己选中的配对已经返回的反馈更新模型。
+
+### 就业服务应用
+
+就业转介沙盘用虚构的求职者和岗位演示顾问如何安排有限的推荐名额。调整**转介总名额**或**仓储岗位名额**，页面会检查求职意愿、班次、通勤和资格，再给出建议名单。名单分别说明谁有合适岗位但还在排队，谁当前缺少符合条件的岗位，方便顾问安排后续跟进。[打开就业转介沙盘](https://gloriashang.github.io/jobmatching-lab/#referral-sandbox)
+
+[专业分类接口](services/major-classifier/)可以作为前置数据整理工具，把自由文本的专业名称归到统一类别。沙盘使用独立的示例记录，在浏览器里运行。做实际试点时，应使用经同意的求职信息与核实过的岗位，由顾问和求职者复核推荐，再跟踪推荐覆盖、面试和入职结果。
 
 ### 这个项目贡献了什么
 
@@ -140,6 +156,8 @@ Job Matching Lab 模拟一个按季度推荐岗位的平台。系统先估计每
 3. 点击折线图上的位置或季度按钮，季度表现图和权重图会高亮同一季度。下方显示两种策略的数值与差值，也可展开表格查看全部八个季度。
 
 点击**重置筛选**恢复初始场景，右上角可切换语言和主题。每次打开或刷新默认英文、亮色。看板展示种子 42 的策略汇总。
+
+看板用统一口径对比每百对的预期邀请数，以及相对模拟最优可行分配的缺口。还可以看各季度决策前已有多少条测试反馈，以及自适应混合给近期加权模型的权重百分比。这些指标衡量的是模拟转介决策。
 
 ### 🔎 选择数据模式
 
@@ -193,7 +211,7 @@ python -m jobmatching --structure data/jobtalash-structure.csv --seed 42 --drift
 
 **关键词** 人岗匹配 · JobTalash · 二部图匹配 · 运筹优化 · 线性规划 · 延迟反馈 · 概念漂移 · 仿真实验 · 可复现研究 · Python · SciPy
 
-[English](#english) · [返回顶部](#job-matching-lab)
+[English](#english) · [打开在线演示](https://gloriashang.github.io/jobmatching-lab/) · [返回顶部](#job-matching-lab)
 
 This repository is a public research preview. A software license has not yet been selected.  
 本仓库为公开研究预览，软件许可证待定。
