@@ -2,10 +2,22 @@
 
 [![Synthetic demo](https://github.com/GloriaShang/jobmatching-lab/actions/workflows/smoke.yml/badge.svg)](https://github.com/GloriaShang/jobmatching-lab/actions/workflows/smoke.yml)
 
-[English](#english) · [简体中文](#简体中文) · [Interactive demo / 交互演示](https://gloriashang.github.io/jobmatching-lab/)　( •̀ᴗ•́ )و
+[English](#english) · [简体中文](#简体中文)
 
 **Capacity-constrained worker–job matching with delayed feedback.**  
 **在岗位容量有限、反馈延迟的情况下，比较不同的人岗匹配策略。**
+
+## ▶ [Open the live dashboard · 打开在线演示](https://gloriashang.github.io/jobmatching-lab/)
+
+Try **JobTalash structure → Strong → Adaptive mixture vs Fixed mixture → 2022 Q2** to see the two policies side by side and read the difference for that quarter.
+
+试试 **JobTalash 真实结构 → 强漂移 → 自适应混合对照固定混合 → 2022 年第 2 季度**，就能看到两种策略的走势和当季差值。
+
+[How to use the dashboard](#how-to-use-the-dashboard) · [看板玩法](#看板玩法)
+
+<a href="https://gloriashang.github.io/jobmatching-lab/">
+  <img src="https://github.com/user-attachments/assets/1367bb33-7db8-416b-a6fb-45edb8f82059" width="700" alt="Job Matching Lab in English and light mode. The dashboard compares the adaptive and fixed mixtures and highlights 2022 Q2 on both charts.">
+</a>
 
 ## English
 
@@ -17,9 +29,13 @@ Job Matching Lab simulates a platform that recommends a limited number of worker
 2. **A controlled comparison under delayed feedback.** Compare five policies on the same scenario and resource constraints. Fixed and adaptive mixtures start at the same weight, and each policy updates using the feedback available from its own prior selections.
 3. **Reproducible evaluation on two graph types.** Run the same pipeline on a generated graph or a checksum-verified JobTalash delivery graph. The benchmark reports all five policies over ten paired seeds per drift setting, and the bilingual explorer shows how one scenario unfolds quarter by quarter.
 
-### 📊 Explore the interactive demo
+### How to use the dashboard
 
-Switch the candidate graph, drift strength, and policy to compare the oracle gap, quarterly invitation yield, and adaptive weight. The dashboard uses seed 42 and policy-level aggregates. [Open the interactive demo](https://gloriashang.github.io/jobmatching-lab/)
+1. Pick **JobTalash structure** or **Synthetic graph**, then choose a simulated drift level.
+2. Choose a **Primary policy** and a **Compare with** policy. Switch the quarterly chart between **Invitations**, **Oracle gap**, and **Visible feedback**.
+3. Click the chart or a quarter button to highlight the same quarter on the matching and weight charts. The readout gives both policy values and their difference. Expand the table for all eight quarters.
+
+**Reset filters** restores the starting scenario. The top-right controls switch language and theme. Each open or reload starts in English and Light. The dashboard displays policy aggregates from seed 42.
 
 ### 🔎 Choose a data mode
 
@@ -117,9 +133,13 @@ Job Matching Lab 模拟一个按季度推荐岗位的平台。系统先估计每
 2. **把延迟反馈做成可比较的实验。** 五种策略面对同一场景和资源约束，固定混合与自适应混合从相同权重起步。每种策略只用自己选中、且已经返回的反馈更新。
 3. **让实验能在两种候选图上复跑。** 同一套流程支持合成图和经校验的 JobTalash 投递图。基准表汇报每档漂移下五种策略在十个种子上的均值，双语交互页展示其中一个种子的季度变化。
 
-### 📊 在线交互演示
+### 看板玩法
 
-在页面中切换数据模式、漂移强度和匹配策略，即可查看最优分配差距、季度预期邀请走势和自适应权重。页面显示种子 42 的策略汇总。[打开交互演示](https://gloriashang.github.io/jobmatching-lab/)
+1. 选择 **JobTalash 真实结构**或**合成图**，再选模拟漂移强度。
+2. 选择**主要策略**和**对照策略**，切换季度图的**预期邀请**、**理想差距**和**可见反馈**。
+3. 点击折线图上的位置或季度按钮，季度表现图和权重图会高亮同一季度。下方显示两种策略的数值与差值，也可展开表格查看全部八个季度。
+
+点击**重置筛选**恢复初始场景，右上角可切换语言和主题。每次打开或刷新默认英文、亮色。看板展示种子 42 的策略汇总。
 
 ### 🔎 选择数据模式
 
